@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:blog_app/core/constants/screen_const.dart';
+import 'package:blog_app/modules/auth/presentations/screens/auth_screen.dart';
+import 'package:blog_app/modules/blogs/presentation/screens/blog_detail_screen.dart';
 import 'package:blog_app/modules/blogs/presentation/screens/home_screen.dart';
+import 'package:blog_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteHandler {
@@ -11,10 +14,28 @@ class RouteHandler {
     Object? args = settings.arguments;
     log("${args}hello");
     switch (settings.name) {
+      case "/":
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const SplashScreen(
+            duration: 3,
+            navigateTo: ScreenConst.authScreen,
+          ),
+        );
+
+      case ScreenConst.authScreen:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const AuthScreen(),
+        );
+
       case ScreenConst.homeScreen:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const HomeScreen());
+          builder: (BuildContext context) => const HomeScreen(),
+        );
 
+      case ScreenConst.blogDetailScreen:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const BlogDetailScreen(),
+            settings: RouteSettings(arguments: args));
       default:
         return errorRoute();
     }

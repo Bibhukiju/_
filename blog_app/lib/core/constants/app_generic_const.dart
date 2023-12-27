@@ -1,3 +1,3 @@
 class AppGenericConst {
-  static String hostUrl = "http://192.168.1.76:3000";
+  static String hostUrl = "http://192.168.101.9:3000";
 }

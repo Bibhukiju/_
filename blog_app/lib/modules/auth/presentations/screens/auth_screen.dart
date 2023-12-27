@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:blog_app/core/constants/screen_const.dart';
 import 'package:blog_app/modules/auth/presentations/bloc/auth_cubit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class AuthPage extends StatelessWidget {
-  const AuthPage({
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({
     super.key,
   });
 
@@ -16,8 +17,8 @@ class AuthPage extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: NetworkImage(
-                  "https://wallpaperaccess.com/full/8323353.png",
+                image: AssetImage(
+                  "assets/images/bg.jpg",
                 ),
                 fit: BoxFit.fill)),
         child: Column(
@@ -26,18 +27,29 @@ class AuthPage extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * .1,
             ),
-            Text(
-              "Serenade",
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-            Text(
-              "Sphere",
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium!
-                  .copyWith(color: Colors.white),
+            Hero(
+                tag: "Title",
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Serenade",
+                      style:
+                          Theme.of(context).textTheme.displayMedium!.copyWith(
+                                color: Colors.white,
+                              ),
+                    ),
+                    Text(
+                      "Sphere",
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium!
+                          .copyWith(color: Colors.white),
+                    ),
+                  ],
+                )),
+            const SizedBox(
+              height: 10,
             ),
             Text(
               "Every Blog at Your Fingertips!",
@@ -60,15 +72,25 @@ class AuthPage extends StatelessWidget {
                   onPressed: () {
                     context.read<AuthCubit>().signIn();
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Continue with google",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium
-                              ?.copyWith(color: Colors.white)),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: FaIcon(
+                            FontAwesomeIcons.google,
+                            color: Colors.red,
+                          ),
+                        ),
+                        Text("Continue with google",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(color: Colors.white)),
+                      ],
+                    ),
                   ),
                 ),
               ),

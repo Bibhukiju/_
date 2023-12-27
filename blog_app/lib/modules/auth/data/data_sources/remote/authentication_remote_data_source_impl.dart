@@ -14,32 +14,28 @@ class AuthenticationRemoteDataSourceImpl
 
   @override
   Future<AuthModel> googleSignIn() async {
-    try {
-      final account = await googleSignInInstance.signIn();
-      Map<String, dynamic> reqbody = {
-        "name": account!.displayName,
-        "email": account.email,
-        "image": account.photoUrl
-      };
-      print(reqbody);
-      final response = await http.post(
-          Uri.parse("${AppGenericConst.hostUrl}/auth"),
-          body: jsonEncode(reqbody),
-          headers: {
-            'Content-Type': 'application/json',
-          }).timeout(const Duration(seconds: 30), onTimeout: () {
-        throw ServerException('Server Response Timeout');
-      });
-      await googleSignInInstance.disconnect();
-      final responseData = jsonDecode(response.body);
-      if (response.statusCode >= 400) {
-        googleSignInInstance.disconnect();
-        throw ServerException(responseData['message']);
-      }
+    final account = await googleSignInInstance.signIn();
+    Map<String, dynamic> reqbody = {
+      "name": account!.displayName,
+      "email": account.email,
+      "image": account.photoUrl ?? ""
+    };
 
-      return AuthModel.fromMap(jsonDecode(response.body));
-    } catch (e) {
-      return AuthModel(msg: "err");
+    final response = await http.post(
+        Uri.parse("${AppGenericConst.hostUrl}/auth"),
+        body: jsonEncode(reqbody),
+        headers: {
+          'Content-Type': 'application/json',
+        }).timeout(const Duration(seconds: 30), onTimeout: () {
+      throw ServerException('Server Response Timeout');
+    });
+    await googleSignInInstance.disconnect();
+    final responseData = jsonDecode(response.body);
+    if (response.statusCode >= 400) {
+      googleSignInInstance.disconnect();
+      throw ServerException(responseData['message']);
     }
+
+    return AuthModel.fromMap(jsonDecode(response.body));
   }
 }

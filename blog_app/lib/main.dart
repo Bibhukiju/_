@@ -1,10 +1,11 @@
-
+import 'package:blog_app/core/constants/screen_const.dart';
+import 'package:blog_app/modules/blogs/presentation/cubit/blog_cubit.dart';
 import 'package:blog_app/route_handler.dart';
+import 'package:blog_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'modules/auth/presentations/bloc/auth_cubit.dart';
-import 'modules/auth/presentations/screens/auth_screen.dart';
 import 'service_locator.dart' as di;
 
 void main() async {
@@ -19,10 +20,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => di.sl.call<AuthCubit>())],
+      providers: [
+        BlocProvider(
+          create: (_) => di.sl.call<AuthCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.sl.call<BlogCubit>(),
+        )
+      ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: AuthPage(),
+        home: SplashScreen(
+          duration: 2,
+          navigateTo: ScreenConst.authScreen,
+        ),
         onGenerateRoute: RouteHandler.generateRoute,
       ),
     );

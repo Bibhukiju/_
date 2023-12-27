@@ -13,7 +13,9 @@ class AuthModel extends AuthEntity {
 
   factory AuthModel.fromMap(Map<String, dynamic> map) {
     return AuthModel(
-        msg: map["msg"] as String, data: map["data"] ?? map["data"]);
+      msg: map["msg"] as String,
+      data: map["data"] ?? map["data"],
+    );
   }
   String toJson() => json.encode(toMap());
 
